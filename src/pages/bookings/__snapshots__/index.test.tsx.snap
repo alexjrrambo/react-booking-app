@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BookingsPage > should match snapshot 1`] = `
+<DocumentFragment>
+  <h1>
+    Bookings Page
+  </h1>
+</DocumentFragment>
+`;
