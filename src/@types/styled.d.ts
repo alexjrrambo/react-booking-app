@@ -1,6 +1,6 @@
 import "styled-components";
-import type { AppTheme } from "../styles/theme";
+import { Theme as MuiTheme } from "@mui/material/styles";
 
 declare module "styled-components" {
-  export interface DefaultTheme extends AppTheme {}
+  export interface DefaultTheme extends MuiTheme {}
 }

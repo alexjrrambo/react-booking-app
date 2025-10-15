@@ -1,12 +1,11 @@
-export const theme = {
-  fonts: {
-    primary: "'Inter', sans-serif",
-  },
-  colors: {
-    primary: "#007bff",
-    background: "#09090b",
-    text: "#fafafa",
-  },
-} as const;
+import { createTheme } from "@mui/material/styles";
 
-export type AppTheme = typeof theme;
+export const theme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+  typography: {
+    fontFamily: "'Inter', sans-serif",
+    button: { textTransform: "none" },
+  },
+});
