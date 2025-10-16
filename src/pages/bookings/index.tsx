@@ -1,43 +1,33 @@
-import { Container, StyledCardContent } from "./styles";
+import { BookingActions, BookingSection, Container } from "./styles";
 import {
   Button,
-  Card,
+  Typography,
 } from "@mui/material";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import AddIcon from "@mui/icons-material/Add";
-import { TextWithIcon } from "../../components/TextWithIcon";
+import { FilterHeader } from "./FilterHeader";
+import { BookingList } from "./BookingList";
 
 export function BookingsPage() {
   return (
     <Container>
-      <Card>
-        <StyledCardContent>
-          <TextWithIcon icon={<HomeOutlinedIcon />}>
-            Property 1
-          </TextWithIcon>
+      <FilterHeader />
 
-          <TextWithIcon icon={<CalendarMonthOutlinedIcon />}>
-            All dates
-          </TextWithIcon>
-
+      <BookingSection>
+        <BookingActions>
+          <Typography variant="h5">
+            Bookings
+          </Typography>
           <Button
-            variant="outlined"
-            startIcon={<TuneOutlinedIcon />}
+            variant="contained"
+            startIcon={<AddIcon />}
+            size="medium"
           >
-            Change filters
+            Create booking
           </Button>
-        </StyledCardContent>
-      </Card>
+        </BookingActions>
 
-      <Button
-        variant="contained"
-        startIcon={<AddIcon />}
-        size="medium"
-      >
-        Create booking
-      </Button>
+        <BookingList />
+      </BookingSection>
     </Container>
   );
 }

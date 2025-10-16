@@ -1,14 +1,16 @@
-import { CardContent } from "@mui/material";
 import styled from "styled-components";
 
 export const Container = styled.div`
     max-width: 1120px;
-    margin: 0 auto;
     padding: 24px;
+    margin: 0 auto;
 `;
 
-export const StyledCardContent = styled(CardContent)`
+export const BookingSection = styled.section`
+    margin-top: 20px;
+`;
+
+export const BookingActions = styled.div`
     display: flex;
-    align-items: center;
     justify-content: space-between;
 `;

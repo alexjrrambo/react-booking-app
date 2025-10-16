@@ -2,12 +2,12 @@ import type { ReactNode } from "react";
 import { Wrapper } from "./styles";
 import { Typography } from "@mui/material";
 
-type TextProps = {
+type TextWithIconProps = {
   icon?: ReactNode;
   children: ReactNode;
 };
 
-export function TextWithIcon({ icon, children }: TextProps) {
+export function TextWithIcon({ icon, children }: TextWithIconProps) {
   return (
     <Wrapper>
       {icon}

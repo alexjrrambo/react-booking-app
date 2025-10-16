@@ -1,4 +1,4 @@
-import { BookingsPage } from "./pages/bookings";
+import { BookingsPage } from "./pages/Bookings";
 
 export function App() {
   return (
