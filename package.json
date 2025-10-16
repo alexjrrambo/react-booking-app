@@ -17,8 +17,10 @@
     "@mui/icons-material": "^7.3.3",
     "@mui/material": "^7.3.3",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@7.3.3",
+    "@reduxjs/toolkit": "^2.9.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-redux": "^9.2.0",
     "styled-components": "^6.1.19"
   },
   "devDependencies": {

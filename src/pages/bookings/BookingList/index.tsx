@@ -7,59 +7,23 @@ import { TextWithIcon } from "../../../components/TextWithIcon";
 import { Card } from "../../../components/Card";
 import { BookingItemActions, BookingListContainer, StyledActionButton } from "./styles";
 import { Grid } from "@mui/material";
-
-const MOCK_BOOKINGS = [
-  {
-    id: "bkg_001",
-    guestName: "Alex Junior Rambo",
-    property: "Property 1",
-    startDate: "2025-07-10",
-    endDate: "2025-07-17",
-  },
-  {
-    id: "bkg_002",
-    guestName: "Maria Oliveira",
-    property: "Property 2",
-    startDate: "2025-07-12",
-    endDate: "2025-07-15",
-  },
-  {
-    id: "bkg_003",
-    guestName: "João Santos",
-    property: "Property 3",
-    startDate: "2025-07-18",
-    endDate: "2025-07-22",
-  },
-  {
-    id: "bkg_004",
-    guestName: "Ana Beatriz",
-    property: "Property 1",
-    startDate: "2025-07-20",
-    endDate: "2025-07-25",
-  },
-  {
-    id: "bkg_005",
-    guestName: "Carlos Souza",
-    property: "Property 2",
-    startDate: "2025-07-28",
-    endDate: "2025-08-02",
-  },
-  {
-    id: "bkg_006",
-    guestName: "Fernanda Lima",
-    property: "Property 3",
-    startDate: "2025-08-05",
-    endDate: "2025-08-10",
-  },
-];
+import { useAppSelector } from "../../../store";
+import { useDispatch } from "react-redux";
+import { deleteBooking } from "../../../store/slices/booking";
 
 export function BookingList() {
+  const dispatch = useDispatch();
+  const bookings = useAppSelector((store) => store.booking.bookingList);
+
+  const handleDeleteBooking = (id: string) => {
+    dispatch(deleteBooking({ id }));
+  };
   return (
     <BookingListContainer>
-      {MOCK_BOOKINGS.map((bookingItem) => (
+      {bookings.map((bookingItem) => (
         <Card key={bookingItem.id}>
 
-          <Grid container sx={{ flexGrow: 1 }} spacing={2}>
+          <Grid container flexGrow={1} spacing={2}>
             <Grid size={12}>
               <TextWithIcon icon={<CalendarMonthOutlinedIcon />}>
                 {`From ${bookingItem.startDate} to ${bookingItem.endDate}`}
@@ -91,6 +55,7 @@ export function BookingList() {
               size="small"
               startIcon={<DeleteOutlineIcon />}
               color="error"
+              onClick={() => handleDeleteBooking(bookingItem.id)}
             >
               Delete
             </StyledActionButton>

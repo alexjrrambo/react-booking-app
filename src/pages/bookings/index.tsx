@@ -1,11 +1,10 @@
 import { BookingActions, BookingSection, Container } from "./styles";
 import {
-  Button,
   Typography,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import { FilterHeader } from "./FilterHeader";
 import { BookingList } from "./BookingList";
+import { CreateBookingButton } from "./CreateBooking";
 
 export function BookingsPage() {
   return (
@@ -17,13 +16,7 @@ export function BookingsPage() {
           <Typography variant="h5">
             Bookings
           </Typography>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            size="medium"
-          >
-            Create booking
-          </Button>
+          <CreateBookingButton />
         </BookingActions>
 
         <BookingList />
