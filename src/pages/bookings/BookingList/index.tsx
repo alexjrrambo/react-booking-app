@@ -1,15 +1,15 @@
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import { Card } from "@components/Card";
+import { TextWithIcon } from "@components/TextWithIcon";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import PersonIcon from "@mui/icons-material/Person";
 import EditIcon from "@mui/icons-material/Edit";
-import { TextWithIcon } from "../../../components/TextWithIcon";
-import { Card } from "../../../components/Card";
-import { BookingItemActions, BookingListContainer, StyledActionButton } from "./styles";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import PersonIcon from "@mui/icons-material/Person";
 import { Grid } from "@mui/material";
-import { useAppSelector } from "../../../store";
+import { useAppSelector } from "@store/index";
+import { deleteBooking } from "@store/slices/booking";
 import { useDispatch } from "react-redux";
-import { deleteBooking } from "../../../store/slices/booking";
+import { BookingItemActions, BookingListContainer, StyledActionButton } from "./styles";
 
 export function BookingList() {
   const dispatch = useDispatch();
@@ -23,7 +23,11 @@ export function BookingList() {
       {bookings.map((bookingItem) => (
         <Card key={bookingItem.id}>
 
-          <Grid container flexGrow={1} spacing={2}>
+          <Grid
+            container
+            flexGrow={1}
+            spacing={2}
+          >
             <Grid size={12}>
               <TextWithIcon icon={<CalendarMonthOutlinedIcon />}>
                 {`From ${bookingItem.startDate} to ${bookingItem.endDate}`}

@@ -1,6 +1,6 @@
+import { Typography } from "@mui/material";
 import type { ReactNode } from "react";
 import { Wrapper } from "./styles";
-import { Typography } from "@mui/material";
 
 type TextWithIconProps = {
   icon?: ReactNode;

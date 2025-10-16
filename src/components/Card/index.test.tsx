@@ -1,10 +1,11 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { renderWithTheme } from "@test/renderWithTheme";
+import { screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { Card } from "./index";
 
-describe("<Card />", () => {
+describe("Component: Card", () => {
   it("should render its children", () => {
-    render(
+    renderWithTheme(
       <Card>
         <span data-testid="child">Hello</span>
       </Card>,

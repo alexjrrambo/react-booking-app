@@ -1,11 +1,11 @@
+import { Card } from "@components/Card";
+import { TextWithIcon } from "@components/TextWithIcon";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import {
   Button,
 } from "@mui/material";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
-import { TextWithIcon } from "../../../components/TextWithIcon";
-import { Card } from "../../../components/Card";
 
 export function FilterHeader() {
   return (

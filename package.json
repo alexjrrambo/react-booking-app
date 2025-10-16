@@ -14,14 +14,19 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@mui/icons-material": "^7.3.3",
     "@mui/material": "^7.3.3",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@7.3.3",
     "@reduxjs/toolkit": "^2.9.0",
+    "date-fns": "^4.1.0",
     "react": "^19.1.1",
+    "react-day-picker": "^9.11.1",
     "react-dom": "^19.1.1",
+    "react-hook-form": "^7.65.0",
     "react-redux": "^9.2.0",
-    "styled-components": "^6.1.19"
+    "styled-components": "^6.1.19",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
@@ -33,6 +38,7 @@
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.4",
     "eslint": "^9.36.0",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",

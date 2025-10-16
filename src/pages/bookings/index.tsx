@@ -1,10 +1,10 @@
-import { BookingActions, BookingSection, Container } from "./styles";
 import {
   Typography,
 } from "@mui/material";
-import { FilterHeader } from "./FilterHeader";
 import { BookingList } from "./BookingList";
 import { CreateBookingButton } from "./CreateBooking";
+import { FilterHeader } from "./FilterHeader";
+import { BookingActions, BookingSection, Container } from "./styles";
 
 export function BookingsPage() {
   return (

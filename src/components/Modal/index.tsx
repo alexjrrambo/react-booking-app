@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, DialogActions, Typography } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, Typography } from "@mui/material";
 import type { ReactNode } from "react";
 
 type ModalProps = {
@@ -21,17 +21,22 @@ export function Modal({
   maxWidth = "sm",
 }: ModalProps) {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth={maxWidth} fullWidth>
-      <DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth={maxWidth}
+      fullWidth
+    >
+
+      <DialogContent>
         {title && <Typography variant="h6">{title}</Typography>}
         {subtitle && (
           <Typography variant="body2" color="text.secondary">
             {subtitle}
           </Typography>
         )}
-      </DialogTitle>
-
-      <DialogContent>{children}</DialogContent>
+        {children}
+      </DialogContent>
 
       {actions ? <DialogActions>{actions}</DialogActions> : null}
     </Dialog>
