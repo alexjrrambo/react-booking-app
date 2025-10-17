@@ -1,5 +1,5 @@
 import { Card } from "@components/Card";
-import { DatePicker } from "@components/Input/DatePicker";
+import { DatePicker } from "@components/DatePicker";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SearchIcon from "@mui/icons-material/Search";

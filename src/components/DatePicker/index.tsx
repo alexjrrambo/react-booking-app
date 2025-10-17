@@ -1,7 +1,7 @@
 import { Modal } from "@components/Modal";
+import { BookingModal } from "@components/Modal/Booking";
 import { usePropertyBookedDates } from "@hooks/usePropertyBookedDates";
 import { Button, TextField } from "@mui/material";
-import { BookingDialogButton } from "@pages/Bookings/BookingDialogButton";
 import { formatBookingRange, formatDateISO } from "@utils/date";
 import { useEffect, useState, type ReactNode } from "react";
 import type { DateRange } from "react-day-picker";
@@ -161,8 +161,8 @@ export function DatePicker({
             <Button variant="text" onClick={handleClearDatePicker}>Clear dates</Button>
             <Button variant="outlined" onClick={handleCloseDatePicker}>Close</Button>
             {enableCreateBooking && (
-              <BookingDialogButton
-                defaultBookigValues={{
+              <BookingModal
+                defaultBookingValues={{
                   property,
                   startDate: datePickerDates?.from
                     ? formatDateISO(datePickerDates.from)

@@ -1,4 +1,5 @@
-import { DatePicker } from "@components/Input/DatePicker";
+import { DatePicker } from "@components/DatePicker";
+import { BookingModal } from "@components/Modal/Booking";
 import { useAppSelector } from "@hooks/useAppSelector";
 import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
 import {
@@ -6,7 +7,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { BookingDialogButton } from "./BookingDialogButton";
 import { BookingList } from "./BookingList";
 import { FilterHeader } from "./FilterHeader";
 import { BookingActions, BookingSection, Container, RightActions } from "./styles";
@@ -46,7 +46,7 @@ export function BookingsPage() {
               )}
             />
 
-            <BookingDialogButton />
+            <BookingModal defaultBookingValues={{ property: filterProperty }} />
           </RightActions>
         </BookingActions>
 

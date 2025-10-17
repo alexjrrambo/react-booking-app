@@ -1,4 +1,5 @@
 import { Card } from "@components/Card";
+import { BookingModal } from "@components/Modal/Booking";
 import { TextWithIcon } from "@components/TextWithIcon";
 import { useAppSelector } from "@hooks/useAppSelector";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
@@ -13,7 +14,6 @@ import { selectFilteredBookings } from "@store/slices/selectors";
 import { parseDateOnly } from "@utils/date";
 import { format } from "date-fns";
 import { useDispatch } from "react-redux";
-import { BookingDialogButton } from "../BookingDialogButton";
 import {
   BookingItemActions,
   BookingListContainer,
@@ -42,7 +42,7 @@ export function BookingList() {
           <Typography variant="body2">
             Try adjusting the filters or create a new booking.
           </Typography>
-          <BookingDialogButton />
+          <BookingModal />
         </BookingListEmpty>
       </BookingListContainer>
     );
@@ -84,7 +84,7 @@ export function BookingList() {
             </Grid>
 
             <BookingItemActions>
-              <BookingDialogButton existingBooking={bookingItem} />
+              <BookingModal existingBooking={bookingItem} />
               <Button
                 variant="outlined"
                 size="small"

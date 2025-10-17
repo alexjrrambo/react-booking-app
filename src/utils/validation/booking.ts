@@ -104,3 +104,35 @@ export function ensureNoOverlapForProperty({
   }
   return { error: false };
 }
+
+type ExecuteBookingValidatorsParams = {
+  startDate: Date;
+  endDate: Date;
+  property: string;
+  existingBookings: Booking[];
+  ignoreBookingId?: string;
+  ignorePastBookings?: boolean;
+};
+
+export function executeBookingValidators({
+  startDate,
+  endDate,
+  property,
+  existingBookings,
+  ignoreBookingId,
+  ignorePastBookings,
+}: ExecuteBookingValidatorsParams): BookingValidationResult {
+  return runValidatorsInOrder(
+    () => ensureDateRangePresent(startDate, endDate),
+    () => ensureChronologicalOrder(startDate, endDate),
+    () => ensureStartDateNotInPast(startDate),
+    () => ensureNoOverlapForProperty({
+      startDate,
+      endDate,
+      property,
+      existingBookings,
+      ignoreBookingId,
+      ignorePastBookings,
+    }),
+  );
+}
