@@ -6,7 +6,8 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonIcon from "@mui/icons-material/Person";
-import { Button, Grid } from "@mui/material";
+import SearchOffOutlinedIcon from "@mui/icons-material/SearchOffOutlined";
+import { Button, Grid, Typography } from "@mui/material";
 import { deleteBooking } from "@store/slices/booking";
 import { selectFilteredBookings } from "@store/slices/selectors";
 import { parseDateOnly } from "@utils/date";
@@ -16,6 +17,7 @@ import { BookingDialogButton } from "../BookingDialogButton";
 import {
   BookingItemActions,
   BookingListContainer,
+  BookingListEmpty,
   DateBadge,
   DateBadgeIcon,
   DateBadgeText,
@@ -28,6 +30,23 @@ export function BookingList() {
   const handleDeleteBooking = (id: string) => {
     dispatch(deleteBooking({ id }));
   };
+
+  if (bookings.length === 0) {
+    return (
+      <BookingListContainer>
+        <BookingListEmpty>
+          <SearchOffOutlinedIcon fontSize="large" />
+          <Typography variant="h6">
+            No bookings found
+          </Typography>
+          <Typography variant="body2">
+            Try adjusting the filters or create a new booking.
+          </Typography>
+          <BookingDialogButton />
+        </BookingListEmpty>
+      </BookingListContainer>
+    );
+  }
 
   return (
     <BookingListContainer>

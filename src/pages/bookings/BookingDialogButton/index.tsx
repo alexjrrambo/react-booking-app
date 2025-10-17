@@ -8,26 +8,29 @@ import {
   Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField,
 } from "@mui/material";
 import { createBooking, updateBooking } from "@store/slices/booking";
-import { selectBookings } from "@store/slices/selectors";
 import type { Booking } from "@store/slices/types";
 import { formatDateISO, parseDateOnly } from "@utils/date";
 import { ensureChronologicalOrder, ensureDateRangePresent, ensureNoOverlapForProperty, ensureStartDateNotInPast, runValidatorsInOrder } from "@utils/validation/booking";
 import type { BookingFormData } from "@utils/validation/bookingSchema";
 import { useState } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { PROPERTY_OPTIONS } from "../../../constants/properties";
 import { BookingForm } from "./styles";
 
 type BookingDialogButtonProps = {
   existingBooking?: Booking;
+  defaultBookigValues?: Partial<Booking>;
+  enableCreateBooking?: boolean;
 };
 
-export function BookingDialogButton({ existingBooking }: BookingDialogButtonProps) {
+export function BookingDialogButton({ existingBooking, defaultBookigValues, enableCreateBooking }: BookingDialogButtonProps) {
   const dispatch = useDispatch();
-  const bookings = useAppSelector(selectBookings);
+  const bookings = useAppSelector((state) => state.booking.bookings);
+  const filterBookingProperty = useAppSelector((state) => state.booking.filters.property);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const { control, handleSubmit, reset, setError } = useBookingForm();
+  const selectedProperty = useWatch({ control, name: "bookingProperty" });
 
   const isEdit = Boolean(existingBooking);
 
@@ -36,8 +39,8 @@ export function BookingDialogButton({ existingBooking }: BookingDialogButtonProp
 
     if (isEdit) {
       reset({
-        bookingGuestName: existingBooking!.guestName,
-        bookingProperty: existingBooking!.property,
+        bookingGuestName: existingBooking?.guestName,
+        bookingProperty: existingBooking?.property,
         bookingDates: {
           from: parseDateOnly(existingBooking!.startDate),
           to: parseDateOnly(existingBooking!.endDate),
@@ -45,7 +48,21 @@ export function BookingDialogButton({ existingBooking }: BookingDialogButtonProp
       });
     }
     else {
-      reset();
+      const { startDate, endDate } = defaultBookigValues || {};
+      let bookingDates = undefined;
+
+      if (enableCreateBooking) {
+        bookingDates = {
+          from: parseDateOnly(startDate!),
+          to: parseDateOnly(endDate!),
+        };
+      }
+      console.log(bookingDates);
+      reset({
+        bookingGuestName: "",
+        bookingProperty: filterBookingProperty || "",
+        bookingDates,
+      });
     }
   };
 
@@ -102,6 +119,7 @@ export function BookingDialogButton({ existingBooking }: BookingDialogButtonProp
         startIcon={isEdit ? <EditIcon /> : <AddIcon />}
         size={isEdit ? "small" : "medium"}
         onClick={handleOpenCreateBooking}
+        disabled={enableCreateBooking && (!defaultBookigValues?.startDate || !defaultBookigValues?.startDate)}
       >
         {isEdit ? "Edit" : "Create booking"}
       </Button>
@@ -178,6 +196,7 @@ export function BookingDialogButton({ existingBooking }: BookingDialogButtonProp
                 helperText={fieldState.error?.message || "Select your check-in and check-out dates"}
                 required
                 disabledBefore
+                property={selectedProperty}
               />
             )}
           />

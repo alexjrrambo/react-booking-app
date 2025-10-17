@@ -11,8 +11,7 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:ui": "vitest --ui",
-    "coverage": "vitest run --coverage",
-    "server": "json-server server.json -w -d 1000"
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

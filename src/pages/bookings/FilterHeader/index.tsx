@@ -4,7 +4,7 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, Menu, MenuItem } from "@mui/material";
-import { clearBookingFilters, setBookingFilters } from "@store/slices/booking";
+import { setBookingFilters } from "@store/slices/booking";
 import { formatDateISO } from "@utils/date";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
@@ -38,13 +38,6 @@ export function FilterHeader() {
       startDate: filterDates?.from ? formatDateISO(filterDates.from) : "",
       endDate: filterDates?.to ? formatDateISO(filterDates.to) : "",
     }));
-  };
-
-  const handleResetFilters = () => {
-    setFilterDates(undefined);
-    setFilterProperty("");
-
-    dispatch(clearBookingFilters());
   };
 
   return (

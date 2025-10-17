@@ -7,36 +7,36 @@ const initialState: BookingState = {
       id: "bkg_001",
       guestName: "Alex Junior Rambo",
       property: "Mountain Cabin",
-      startDate: "2025-07-10",
-      endDate: "2025-07-17",
+      startDate: "2025-10-10",
+      endDate: "2025-10-13",
     },
     {
       id: "bkg_002",
       guestName: "Maria Oliveira",
       property: "Mountain Cabin",
-      startDate: "2025-07-12",
-      endDate: "2025-07-15",
+      startDate: "2025-10-17",
+      endDate: "2025-10-19",
     },
     {
       id: "bkg_003",
       guestName: "João Santos",
       property: "Mountain Cabin",
-      startDate: "2025-07-18",
-      endDate: "2025-07-22",
+      startDate: "2025-10-22",
+      endDate: "2025-10-26",
     },
     {
       id: "bkg_004",
       guestName: "Ana Beatriz",
       property: "Mountain Cabin",
-      startDate: "2025-07-20",
-      endDate: "2025-07-25",
+      startDate: "2025-11-02",
+      endDate: "2025-11-06",
     },
     {
       id: "bkg_005",
       guestName: "Carlos Souza",
       property: "Mountain Cabin",
-      startDate: "2025-07-28",
-      endDate: "2025-08-02",
+      startDate: "2025-11-20",
+      endDate: "2025-11-25",
     },
   ],
   filters: {
@@ -70,9 +70,6 @@ const bookingSlice = createSlice({
     setBookingFilters: (state, action: PayloadAction<BookingFilters>) => {
       state.filters = { ...state.filters, ...action.payload };
     },
-    clearBookingFilters: (state) => {
-      state.filters = { property: "", startDate: "", endDate: "" };
-    },
   },
 });
 
@@ -82,5 +79,4 @@ export const {
   updateBooking,
   deleteBooking,
   setBookingFilters,
-  clearBookingFilters,
 } = bookingSlice.actions;

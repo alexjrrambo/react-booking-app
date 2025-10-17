@@ -1,6 +1,8 @@
 import { Modal } from "@components/Modal";
+import { usePropertyBookedDates } from "@hooks/usePropertyBookedDates";
 import { Button, TextField } from "@mui/material";
-import { formatBookingRange } from "@utils/date";
+import { BookingDialogButton } from "@pages/Bookings/BookingDialogButton";
+import { formatBookingRange, formatDateISO } from "@utils/date";
 import { useEffect, useState, type ReactNode } from "react";
 import type { DateRange } from "react-day-picker";
 import { DatePickerContainer, StyledDatePicker } from "./styles";
@@ -15,7 +17,8 @@ type DatePickerProps = {
   error?: boolean;
   modalTitle?: string;
   modalSubtitle?: string;
-
+  property?: string;
+  enableCreateBooking?: boolean;
   trigger?: (args: {
     open: () => void;
     displayedValue: string;
@@ -32,11 +35,14 @@ export function DatePicker({
   error,
   modalTitle = "Select booking dates",
   modalSubtitle = "Choose the check-in and check-out dates for the booking.",
+  property = "",
+  enableCreateBooking,
   trigger,
 }: DatePickerProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isBookingRangeConfirmed, setIsBookingRangeConfirmed] = useState(false);
   const [datePickerDates, setDatePickerDates] = useState<DateRange | undefined>();
+  const propertyBookedDates = usePropertyBookedDates(property);
 
   useEffect(() => {
     if (value) {
@@ -55,6 +61,14 @@ export function DatePicker({
 
   const handleCloseDatePicker = () => {
     setIsDatePickerOpen(false);
+
+    if (!isBookingRangeConfirmed || enableCreateBooking) {
+      setDatePickerDates(undefined);
+
+      if (onChange) {
+        onChange(undefined);
+      }
+    }
   };
 
   const handleClearDatePicker = () => {
@@ -83,8 +97,11 @@ export function DatePicker({
     else {
       const confirmedDates = { from: datePickerDates?.from, to: selectedDates?.to };
       setDatePickerDates(confirmedDates);
-      setIsDatePickerOpen(false);
       setIsBookingRangeConfirmed(true);
+
+      if (!enableCreateBooking) {
+        setIsDatePickerOpen(false);
+      }
 
       if (onChange) {
         onChange(confirmedDates);
@@ -105,7 +122,7 @@ export function DatePicker({
 
   const disabledMatchers = disabledBefore && datePickerDates?.from && !isBookingRangeConfirmed
     ? { before: datePickerDates.from }
-    : undefined;
+    : [];
 
   return (
     <>
@@ -141,25 +158,42 @@ export function DatePicker({
         fullWidth={false}
         actions={(
           <>
-            <Button
-              variant="text"
-              onClick={handleClearDatePicker}
-            >
-              Clear dates
-            </Button>
+            <Button variant="text" onClick={handleClearDatePicker}>Clear dates</Button>
             <Button variant="outlined" onClick={handleCloseDatePicker}>Close</Button>
+            {enableCreateBooking && (
+              <BookingDialogButton
+                defaultBookigValues={{
+                  property,
+                  startDate: datePickerDates?.from
+                    ? formatDateISO(datePickerDates.from)
+                    : "",
+                  endDate: datePickerDates?.to
+                    ? formatDateISO(datePickerDates.to)
+                    : "" }}
+                enableCreateBooking
+              />
+            )}
           </>
         )}
       >
         <DatePickerContainer>
           <StyledDatePicker
-            disabled={disabledMatchers}
+            disabled={[
+              ...([disabledMatchers]),
+              ...propertyBookedDates,
+            ]}
             numberOfMonths={2}
             onDayMouseEnter={handleDatePickerPreview}
             selected={datePickerDates}
             onSelect={handleDatePickerSelect}
-            startMonth={isBookingRangeConfirmed ? datePickerDates?.from : undefined}
+            startMonth={(isBookingRangeConfirmed && !enableCreateBooking) ? datePickerDates?.from : undefined}
             mode="range"
+            modifiers={{
+              booked: propertyBookedDates,
+            }}
+            modifiersClassNames={{
+              booked: "my-booked-class",
+            }}
           />
         </DatePickerContainer>
       </Modal>

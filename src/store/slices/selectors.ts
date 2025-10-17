@@ -2,8 +2,8 @@ import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "@store/index";
 import { parseDateOnly } from "@utils/date";
 
-export const selectBookings = (state: RootState) => state.booking.bookings;
-export const selectBookingFilters = (state: RootState) => state.booking.filters;
+const selectBookings = (state: RootState) => state.booking.bookings;
+const selectBookingFilters = (state: RootState) => state.booking.filters;
 
 function rangesIntersect(
   bookingStart: Date,
@@ -19,8 +19,8 @@ export const selectFilteredBookings = createSelector(
   (bookings, filters) => {
     const { property: filterProperty, startDate: filterStart, endDate: filterEnd } = filters;
 
-    const filterStartDate = filterStart ? parseDateOnly(filterStart) : null;
-    const filterEndDate = filterEnd ? parseDateOnly(filterEnd) : null;
+    const filterStartDate = filterStart ? parseDateOnly(filterStart) : undefined;
+    const filterEndDate = filterEnd ? parseDateOnly(filterEnd) : undefined;
 
     return bookings.filter((booking) => {
       if (filterProperty && booking.property !== filterProperty) {

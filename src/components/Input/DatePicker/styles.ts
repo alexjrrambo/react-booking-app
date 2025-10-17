@@ -12,6 +12,13 @@ export const StyledDatePicker = styled(DayPicker)`
   --rdp-accent-background-color: ${({ theme }) => theme.palette.primary.dark};
   --rdp-range_middle-background-color: ${({ theme }) => alpha(theme.palette.primary.main, 0.3)};
   --rdp-day_button-border: none;
+
+  .my-booked-class {
+    background-color: ${({ theme }) => theme.palette.error.main};
+    color: ${({ theme }) => theme.palette.primary.contrastText};
+    border-radius: 50%;
+    opacity: 0.7;
+  }
 `;
 
 export const DatePickerContainer = styled.div`

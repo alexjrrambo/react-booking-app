@@ -60,3 +60,13 @@ export const DateBadgeText = styled.div`
       opacity: 0.8;
     }
 `;
+
+export const BookingListEmpty = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px 0;
+  border-radius: 16px;
+  background: ${({ theme }) => theme.palette.primary.contrastText};
+`;
