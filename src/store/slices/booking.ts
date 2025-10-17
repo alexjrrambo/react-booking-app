@@ -54,6 +54,15 @@ const bookingSlice = createSlice({
     createBooking: (state, action: PayloadAction<Booking>) => {
       state.bookingList.push(action.payload);
     },
+    updateBooking: (state, action: PayloadAction<Booking>) => {
+      const existingBooking = state.bookingList.find(
+        (booking) => booking.id === action.payload.id,
+      );
+
+      if (existingBooking) {
+        Object.assign(existingBooking, action.payload);
+      }
+    },
     deleteBooking: (state, action: PayloadAction<{ id: string }>) => {
       state.bookingList = state.bookingList.filter(
         (booking) => booking.id !== action.payload.id,
@@ -63,4 +72,4 @@ const bookingSlice = createSlice({
 });
 
 export const booking = bookingSlice.reducer;
-export const { createBooking, deleteBooking } = bookingSlice.actions;
+export const { createBooking, updateBooking, deleteBooking } = bookingSlice.actions;

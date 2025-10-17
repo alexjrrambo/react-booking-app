@@ -1,8 +1,8 @@
 import {
   Typography,
 } from "@mui/material";
+import { BookingDialogButton } from "./BookingDialogButton";
 import { BookingList } from "./BookingList";
-import { CreateBookingButton } from "./CreateBooking";
 import { FilterHeader } from "./FilterHeader";
 import { BookingActions, BookingSection, Container } from "./styles";
 
@@ -16,7 +16,7 @@ export function BookingsPage() {
           <Typography variant="h5">
             Bookings
           </Typography>
-          <CreateBookingButton />
+          <BookingDialogButton />
         </BookingActions>
 
         <BookingList />

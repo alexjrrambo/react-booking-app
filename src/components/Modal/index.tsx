@@ -9,6 +9,7 @@ type ModalProps = {
   children?: ReactNode;
   actions?: ReactNode;
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
+  fullWidth?: boolean;
 };
 
 export function Modal({
@@ -18,14 +19,15 @@ export function Modal({
   subtitle,
   children,
   actions,
-  maxWidth = "sm",
+  maxWidth = "md",
+  fullWidth = true,
 }: ModalProps) {
   return (
     <Dialog
       open={open}
       onClose={onClose}
       maxWidth={maxWidth}
-      fullWidth
+      fullWidth={fullWidth}
     >
 
       <DialogContent>

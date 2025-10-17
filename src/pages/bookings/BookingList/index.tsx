@@ -2,13 +2,13 @@ import { Card } from "@components/Card";
 import { TextWithIcon } from "@components/TextWithIcon";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import EditIcon from "@mui/icons-material/Edit";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import { Grid } from "@mui/material";
 import { useAppSelector } from "@store/index";
 import { deleteBooking } from "@store/slices/booking";
 import { useDispatch } from "react-redux";
+import { BookingDialogButton } from "../BookingDialogButton";
 import { BookingItemActions, BookingListContainer, StyledActionButton } from "./styles";
 
 export function BookingList() {
@@ -46,13 +46,7 @@ export function BookingList() {
           </Grid>
 
           <BookingItemActions>
-            <StyledActionButton
-              variant="contained"
-              size="small"
-              startIcon={<EditIcon />}
-            >
-              Edit
-            </StyledActionButton>
+            <BookingDialogButton existingBooking={bookingItem} />
 
             <StyledActionButton
               variant="outlined"

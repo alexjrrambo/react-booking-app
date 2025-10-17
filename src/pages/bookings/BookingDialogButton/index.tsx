@@ -2,42 +2,92 @@ import { DatePicker } from "@components/Input/DatePicker";
 import { Modal } from "@components/Modal";
 import { useBookingForm } from "@hooks/useBookingForm";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField,
 } from "@mui/material";
-import { createBooking } from "@store/slices/booking";
-import { formatDateISO } from "@utils/date";
+import { useAppSelector } from "@store/index";
+import { createBooking, updateBooking } from "@store/slices/booking";
+import type { Booking } from "@store/slices/types";
+import { formatDateISO, parseDateOnly } from "@utils/date";
+import { ensureChronologicalOrder, ensureDateRangePresent, ensureNoOverlapForProperty, ensureStartDateNotInPast, runValidatorsInOrder } from "@utils/validation/booking";
 import type { BookingFormData } from "@utils/validation/bookingSchema";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { BookingForm } from "./styles";
 
-export function CreateBookingButton() {
+type BookingDialogButtonProps = {
+  existingBooking?: Booking;
+};
+
+export function BookingDialogButton({ existingBooking }: BookingDialogButtonProps) {
   const dispatch = useDispatch();
+  const bookings = useAppSelector((store) => store.booking.bookingList);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
-  const { control, handleSubmit, reset } = useBookingForm();
+  const { control, handleSubmit, reset, setError } = useBookingForm();
+
+  const isEdit = Boolean(existingBooking);
 
   const handleOpenCreateBooking = () => {
     setBookingModalOpen(true);
+
+    if (isEdit) {
+      reset({
+        bookingGuestName: existingBooking!.guestName,
+        bookingProperty: existingBooking!.property,
+        bookingDates: {
+          from: parseDateOnly(existingBooking!.startDate),
+          to: parseDateOnly(existingBooking!.endDate),
+        },
+      });
+    }
+    else {
+      reset();
+    }
   };
 
   const handleCloseCreateBooking = () => {
     setBookingModalOpen(false);
   };
 
-  const handleCreateBooking = (formData: BookingFormData) => {
-    const { bookingGuestName, bookingProperty, bookingDates } = formData;
+  const handleCreateBooking = (bookigFormData: BookingFormData) => {
+    const { bookingGuestName, bookingProperty, bookingDates } = bookigFormData;
 
-    dispatch(
-      createBooking({
-        id: `bkg_${Date.now()}`,
-        guestName: bookingGuestName,
+    const bookingStartDate = bookingDates?.from;
+    const bookingEndDate = bookingDates?.to;
+
+    const bookingDatesValidationResult = runValidatorsInOrder(
+      () => ensureDateRangePresent(bookingStartDate, bookingEndDate),
+      () => ensureChronologicalOrder(bookingStartDate, bookingEndDate),
+      () => ensureStartDateNotInPast(bookingStartDate),
+      () => ensureNoOverlapForProperty({
+        startDate: bookingStartDate!,
+        endDate: bookingEndDate!,
         property: bookingProperty,
-        startDate: formatDateISO(bookingDates.from),
-        endDate: formatDateISO(bookingDates.to),
+        existingBookings: bookings,
+        ignoreBookingId: isEdit ? existingBooking?.id : undefined,
+        ignorePastBookings: true,
       }),
     );
+
+    if (bookingDatesValidationResult.error) {
+      setError("bookingDates", { message: bookingDatesValidationResult.message });
+      return;
+    }
+
+    const bookingPayload: Booking = {
+      id: isEdit ? existingBooking!.id : `bkg_${Date.now()}`,
+      guestName: bookingGuestName,
+      property: bookingProperty,
+      startDate: formatDateISO(bookingStartDate),
+      endDate: formatDateISO(bookingEndDate),
+    };
+
+    if (isEdit)
+      dispatch(updateBooking(bookingPayload));
+    else
+      dispatch(createBooking(bookingPayload));
 
     reset();
     setBookingModalOpen(false);
@@ -47,24 +97,26 @@ export function CreateBookingButton() {
     <>
       <Button
         variant="contained"
-        startIcon={<AddIcon />}
-        size="medium"
+        startIcon={isEdit ? <EditIcon /> : <AddIcon />}
+        size={isEdit ? "small" : "medium"}
         onClick={handleOpenCreateBooking}
       >
-        Create booking
+        {isEdit ? "Edit" : "Create booking"}
       </Button>
 
       <Modal
         open={bookingModalOpen}
         onClose={handleCloseCreateBooking}
-        title="Create booking"
-        subtitle="Fill the fields below to create a new booking."
+        title={isEdit ? "Update booking" : "Create booking"}
+        subtitle={isEdit
+          ? "Adjust the fields below to update this booking."
+          : "Fill the fields below to create a new booking."}
         maxWidth="xs"
         actions={(
           <>
             <Button onClick={handleCloseCreateBooking}>Cancel</Button>
             <Button variant="contained" onClick={handleSubmit(handleCreateBooking)}>
-              Save
+              {isEdit ? "Save" : "Create"}
             </Button>
           </>
         )}
@@ -82,7 +134,7 @@ export function CreateBookingButton() {
                 size="small"
                 fullWidth
                 helperText={fieldState.error?.message || "Enter the guest's full name."}
-                error={!!fieldState.error}
+                error={Boolean(fieldState.error)}
               />
             )}
           />
@@ -94,7 +146,7 @@ export function CreateBookingButton() {
               <FormControl
                 variant="standard"
                 required
-                error={!!fieldState.error}
+                error={Boolean(fieldState.error)}
               >
                 <InputLabel id="property-select-label">Property</InputLabel>
                 <Select
@@ -103,8 +155,8 @@ export function CreateBookingButton() {
                   size="small"
                   fullWidth
                 >
-                  <MenuItem value="property-1">Property 1</MenuItem>
-                  <MenuItem value="property-2">Property 2</MenuItem>
+                  <MenuItem value="Property 1">Property 1</MenuItem>
+                  <MenuItem value="Property 2">Property 2</MenuItem>
                 </Select>
                 <FormHelperText>
                   {fieldState.error?.message || "Select the property you want to book."}
@@ -118,6 +170,7 @@ export function CreateBookingButton() {
             control={control}
             render={({ field, fieldState }) => (
               <DatePicker
+                error={Boolean(fieldState.error)}
                 value={field.value}
                 onChange={field.onChange}
                 label="When?"

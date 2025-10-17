@@ -1,4 +1,4 @@
-import { format, isSameMonth, isSameYear } from "date-fns";
+import { format, isSameMonth, isSameYear, parse } from "date-fns";
 
 const DATE_FULL = "MMM d, yyyy"; // Oct 16, 2025
 const DATE_MONTH_DAY = "MMM d"; // Oct 16
@@ -23,7 +23,8 @@ export function formatBookingRange(start: Date, end: Date) {
 export function formatBookingDate(date: Date) {
   return format(date, DATE_FULL);
 }
+export const parseDateOnly = (value: string) => parse(value, "yyyy-MM-dd", new Date());
 
-export function formatDateISO(date: Date) {
-  return date.toISOString().slice(0, 10);
-}
+export const formatDateISO = (date: Date) => format(date, "yyyy-MM-dd");
+
+export const todayDateOnly = parseDateOnly(formatDateISO(new Date()));

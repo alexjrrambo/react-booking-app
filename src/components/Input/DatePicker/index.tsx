@@ -13,6 +13,7 @@ type DatePickerProps = {
   required?: boolean;
   disabled?: boolean;
   disabledBefore?: boolean;
+  error?: boolean;
 };
 
 export function DatePicker({
@@ -20,9 +21,10 @@ export function DatePicker({
   onChange,
   label,
   helperText,
-  required = true,
-  disabled = false,
+  required,
+  disabled,
   disabledBefore,
+  error,
 }: DatePickerProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isBookingRangeConfirmed, setIsBookingRangeConfirmed] = useState(false);
@@ -31,7 +33,7 @@ export function DatePicker({
   useEffect(() => {
     if (value) {
       setDatePickerDates(value);
-      setIsBookingRangeConfirmed(!!(value.from && value.to));
+      setIsBookingRangeConfirmed(Boolean(value.from && value.to));
     }
     else {
       setDatePickerDates(undefined);
@@ -50,13 +52,17 @@ export function DatePicker({
   const handleClearDatePicker = () => {
     setDatePickerDates(undefined);
     setIsBookingRangeConfirmed(false);
-    onChange?.(undefined);
+
+    if (onChange) {
+      onChange(undefined);
+    }
   };
 
   const handleDatePickerSelect = (selectedDates: DateRange | undefined) => {
     if (isBookingRangeConfirmed) {
       setDatePickerDates(undefined);
       setIsBookingRangeConfirmed(false);
+
       if (onChange) {
         onChange(undefined);
       }
@@ -104,6 +110,7 @@ export function DatePicker({
         size="small"
         fullWidth
         helperText={helperText}
+        error={error}
         slotProps={{ input: { readOnly: true } }}
         focused={false}
         onClick={handleOpenDatePicker}
@@ -115,6 +122,7 @@ export function DatePicker({
         title="Select booking dates"
         subtitle="Choose the start and end dates for the booking."
         maxWidth="md"
+        fullWidth={false}
         actions={(
           <>
             <Button
@@ -134,7 +142,7 @@ export function DatePicker({
             onDayMouseEnter={handleDatePickerPreview}
             selected={datePickerDates}
             onSelect={handleDatePickerSelect}
-            navLayout="around"
+            startMonth={isBookingRangeConfirmed ? datePickerDates?.from : undefined}
             mode="range"
           />
         </DatePickerContainer>
