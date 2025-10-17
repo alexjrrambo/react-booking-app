@@ -1,13 +1,14 @@
 import { DatePicker } from "@components/Input/DatePicker";
 import { Modal } from "@components/Modal";
+import { useAppSelector } from "@hooks/useAppSelector";
 import { useBookingForm } from "@hooks/useBookingForm";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField,
 } from "@mui/material";
-import { useAppSelector } from "@store/index";
 import { createBooking, updateBooking } from "@store/slices/booking";
+import { selectBookings } from "@store/slices/selectors";
 import type { Booking } from "@store/slices/types";
 import { formatDateISO, parseDateOnly } from "@utils/date";
 import { ensureChronologicalOrder, ensureDateRangePresent, ensureNoOverlapForProperty, ensureStartDateNotInPast, runValidatorsInOrder } from "@utils/validation/booking";
@@ -15,6 +16,7 @@ import type { BookingFormData } from "@utils/validation/bookingSchema";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { PROPERTY_OPTIONS } from "../../../constants/properties";
 import { BookingForm } from "./styles";
 
 type BookingDialogButtonProps = {
@@ -23,7 +25,7 @@ type BookingDialogButtonProps = {
 
 export function BookingDialogButton({ existingBooking }: BookingDialogButtonProps) {
   const dispatch = useDispatch();
-  const bookings = useAppSelector((store) => store.booking.bookingList);
+  const bookings = useAppSelector(selectBookings);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const { control, handleSubmit, reset, setError } = useBookingForm();
 
@@ -155,8 +157,7 @@ export function BookingDialogButton({ existingBooking }: BookingDialogButtonProp
                   size="small"
                   fullWidth
                 >
-                  <MenuItem value="Property 1">Property 1</MenuItem>
-                  <MenuItem value="Property 2">Property 2</MenuItem>
+                  {PROPERTY_OPTIONS.map((propertyData) => <MenuItem key={propertyData.value} value={propertyData.value}>{propertyData.label}</MenuItem>)}
                 </Select>
                 <FormHelperText>
                   {fieldState.error?.message || "Select the property you want to book."}

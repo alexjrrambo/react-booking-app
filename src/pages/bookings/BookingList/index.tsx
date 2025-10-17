@@ -1,13 +1,14 @@
 import { Card } from "@components/Card";
 import { TextWithIcon } from "@components/TextWithIcon";
+import { useAppSelector } from "@hooks/useAppSelector";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import { Button, Grid } from "@mui/material";
-import { useAppSelector } from "@store/index";
 import { deleteBooking } from "@store/slices/booking";
+import { selectFilteredBookings } from "@store/slices/selectors";
 import { parseDateOnly } from "@utils/date";
 import { format } from "date-fns";
 import { useDispatch } from "react-redux";
@@ -22,7 +23,7 @@ import {
 
 export function BookingList() {
   const dispatch = useDispatch();
-  const bookings = useAppSelector((store) => store.booking.bookingList);
+  const bookings = useAppSelector(selectFilteredBookings);
 
   const handleDeleteBooking = (id: string) => {
     dispatch(deleteBooking({ id }));

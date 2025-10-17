@@ -13,7 +13,6 @@ export interface BookingFilters {
 }
 
 export interface BookingState {
-  bookingList: Booking[];
+  bookings: Booking[];
   filters: BookingFilters;
-  currentBookingId: string;
 }

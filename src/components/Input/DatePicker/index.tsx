@@ -1,7 +1,7 @@
 import { Modal } from "@components/Modal";
 import { Button, TextField } from "@mui/material";
 import { formatBookingRange } from "@utils/date";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { DateRange } from "react-day-picker";
 import { DatePickerContainer, StyledDatePicker } from "./styles";
 
@@ -11,9 +11,15 @@ type DatePickerProps = {
   label?: string;
   helperText?: string;
   required?: boolean;
-  disabled?: boolean;
   disabledBefore?: boolean;
   error?: boolean;
+  modalTitle?: string;
+  modalSubtitle?: string;
+
+  trigger?: (args: {
+    open: () => void;
+    displayedValue: string;
+  }) => ReactNode;
 };
 
 export function DatePicker({
@@ -22,9 +28,11 @@ export function DatePicker({
   label,
   helperText,
   required,
-  disabled,
   disabledBefore,
   error,
+  modalTitle = "Select booking dates",
+  modalSubtitle = "Choose the check-in and check-out dates for the booking.",
+  trigger,
 }: DatePickerProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isBookingRangeConfirmed, setIsBookingRangeConfirmed] = useState(false);
@@ -42,7 +50,7 @@ export function DatePicker({
   }, [value]);
 
   const handleOpenDatePicker = () => {
-    if (!disabled) setIsDatePickerOpen(true);
+    setIsDatePickerOpen(true);
   };
 
   const handleCloseDatePicker = () => {
@@ -101,26 +109,34 @@ export function DatePicker({
 
   return (
     <>
-      <TextField
-        value={displayedDate || ""}
-        variant="standard"
-        required={required}
-        disabled={disabled}
-        label={label}
-        size="small"
-        fullWidth
-        helperText={helperText}
-        error={error}
-        slotProps={{ input: { readOnly: true } }}
-        focused={false}
-        onClick={handleOpenDatePicker}
-      />
+      {trigger
+        ? (
+            trigger({
+              open: handleOpenDatePicker,
+              displayedValue: displayedDate || "",
+            })
+          )
+        : (
+            <TextField
+              value={displayedDate || ""}
+              variant="standard"
+              required={required}
+              label={label}
+              size="small"
+              fullWidth
+              helperText={helperText}
+              error={error}
+              slotProps={{ input: { readOnly: true } }}
+              focused={false}
+              onClick={handleOpenDatePicker}
+            />
+          )}
 
       <Modal
         open={isDatePickerOpen}
         onClose={handleCloseDatePicker}
-        title="Select booking dates"
-        subtitle="Choose the start and end dates for the booking."
+        title={modalTitle}
+        subtitle={modalSubtitle}
         maxWidth="md"
         fullWidth={false}
         actions={(

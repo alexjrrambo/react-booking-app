@@ -5,9 +5,9 @@ import styled from "styled-components";
 
 export const FilterButton = styled(ButtonBase)`
     display: grid;
-    grid-template-columns: 24px 1fr;
+    grid-template-columns: 20px 1fr;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     padding: 10px 12px;
     border-radius: 14px;
     text-align: left;
