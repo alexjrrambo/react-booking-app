@@ -22,6 +22,9 @@ const commonTypography = {
 
 function makeTheme(mode: "light" | "dark") {
   return createTheme({
+    breakpoints: {
+      values: { xs: 448, sm: 600, md: 900, lg: 1200, xl: 1536 },
+    },
     palette: {
       mode,
       primary: brand,
@@ -61,7 +64,7 @@ function makeTheme(mode: "light" | "dark") {
       MuiButton: {
         defaultProps: { disableElevation: true },
         styleOverrides: {
-          root: { borderRadius: 12, paddingInline: 16, height: 36 },
+          root: { borderRadius: 12, paddingInline: 16, height: 36, whiteSpace: "nowrap" },
           containedPrimary: {
             "color": brand.contrastText,
             "backgroundColor": brand.main,
