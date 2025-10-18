@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { PROPERTIES } from "../../../constants/properties";
 import { AnimatedWrapper, FilterButton, FilterHeaderContent, FilterLabel, FilterValue, SearchButton, VerticalDivider } from "./styles";
 
-export function FilterHeader() {
+export function BookingFilterHeader() {
   const dispatch = useDispatch();
   const [filterDates, setFilterDates] = useState<DateRange | undefined>();
   const [filterProperty, setFilterProperty] = useState<string>("");

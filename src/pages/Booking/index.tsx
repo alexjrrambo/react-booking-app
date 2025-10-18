@@ -7,8 +7,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { BookingList } from "./BookingList";
-import { FilterHeader } from "./FilterHeader";
+import { BookingFilterHeader } from "./FilterHeader";
+import { BookingList } from "./List";
 import { BookingActions, BookingSection, Container, RightActions } from "./styles";
 
 export function BookingsPage() {
@@ -16,7 +16,7 @@ export function BookingsPage() {
 
   return (
     <Container>
-      <FilterHeader />
+      <BookingFilterHeader />
 
       <BookingSection>
         <BookingActions>

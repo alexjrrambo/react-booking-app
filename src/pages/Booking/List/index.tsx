@@ -1,3 +1,4 @@
+import { ButtonResponsiveWithIcon } from "@components/Button";
 import { Card } from "@components/Card";
 import { BookingModal } from "@components/Modal/Booking";
 import { TextWithIcon } from "@components/TextWithIcon";
@@ -8,7 +9,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchOffOutlinedIcon from "@mui/icons-material/SearchOffOutlined";
-import { Button, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { selectFilteredBookings } from "@store/booking/selectors";
 import { deleteBooking } from "@store/booking/slice";
 import { parseDateOnly } from "@utils/date";
@@ -91,7 +92,7 @@ export function BookingList() {
 
               <BookingItemActions>
                 <BookingModal existingBooking={bookingItem} />
-                <Button
+                <ButtonResponsiveWithIcon
                   data-testid="delete-booking"
                   variant="outlined"
                   size="small"
@@ -99,8 +100,8 @@ export function BookingList() {
                   color="error"
                   onClick={() => handleDeleteBooking(bookingItem.id)}
                 >
-                  Delete
-                </Button>
+                  <label>Delete</label>
+                </ButtonResponsiveWithIcon>
               </BookingItemActions>
             </Card>
           </AnimatedWrapper>
