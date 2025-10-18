@@ -25,6 +25,7 @@ describe("Bookings – filters", () => {
     cy.get("[data-testid=\"property-menu\"]").should("be.visible");
     cy.contains("li", "All properties").click();
     cy.get("[data-testid=\"apply-filters\"]").click();
+
     cy.get("[data-testid=\"booking-card\"]").should("have.length", 5);
   });
 
@@ -46,10 +47,9 @@ describe("Bookings – filters", () => {
 
     cy.get("[data-testid=\"date-filter-button\"]").click();
     cy.get("[data-testid=\"date-picker-clear\"]").click();
-
     cy.get("[data-testid=\"date-picker-close\"]").click();
-    cy.get("[data-testid=\"apply-filters\"]").click();
 
+    cy.get("[data-testid=\"apply-filters\"]").click();
     cy.get("[data-testid=\"booking-card\"]").should("have.length", 5);
   });
 
@@ -71,9 +71,38 @@ describe("Bookings – filters", () => {
 
   it("should not apply dates when closed without confirming", () => {
     cy.get("[data-testid=\"date-filter-button\"]").click();
-    cy.get("[data-day=\"2025-10-22\"]").find("button").click();
-    cy.get("[data-testid=\"date-picker-close\"]").click();
+    cy.get("[data-day=\"2025-10-22\"]").find("button").click(); // só 'from'
+    cy.get("[data-testid=\"date-picker-close\"]").click(); // fecha sem 'to'
     cy.get("[data-testid=\"apply-filters\"]").click();
+
     cy.get("[data-testid=\"booking-card\"]").should("have.length", 5);
+  });
+
+  it("should combine property and a non-overlapping date range and return none", () => {
+    cy.get("[data-testid=\"filter-property-button\"]").click();
+    cy.get("[data-testid=\"property-menu\"]").should("be.visible");
+    cy.contains("li", "Mountain Cabin").click();
+
+    cy.get("[data-testid=\"date-filter-button\"]").click();
+    cy.get("[data-day=\"2025-10-13\"]").find("button").click();
+    cy.get("[data-day=\"2025-10-17\"]").find("button").click();
+    cy.get("[data-testid=\"apply-filters\"]").click();
+
+    cy.get("[data-testid=\"booking-card\"]").should("have.length", 0);
+  });
+
+  it("should keep date filter when changing property", () => {
+    cy.get("[data-testid=\"date-filter-button\"]").click();
+    cy.get("[data-day=\"2025-10-18\"]").find("button").click();
+    cy.get("[data-day=\"2025-10-23\"]").find("button").click();
+    cy.get("[data-testid=\"apply-filters\"]").click();
+
+    cy.get("[data-testid=\"filter-property-button\"]").click();
+    cy.get("[data-testid=\"property-menu\"]").should("be.visible");
+    cy.contains("li", "Beach House").click();
+    cy.get("[data-testid=\"apply-filters\"]").click();
+
+    cy.get("[data-testid=\"booking-card\"]").should("have.length", 1);
+    cy.get("[data-testid=\"booking-card\"]").first().should("contain.text", "Beach House");
   });
 });
