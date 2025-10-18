@@ -8,8 +8,10 @@ export const FilterHeaderContent = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
+  gap: 4px;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.values.xs}px) {
+    gap: 0;
     flex-direction: column;
   }
 `;

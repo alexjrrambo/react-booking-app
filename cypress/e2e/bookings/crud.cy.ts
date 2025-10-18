@@ -56,7 +56,7 @@ describe("Bookings – CRUD", () => {
     cy.get("@firstCard").should("contain.text", "Alex J. Rambo");
   });
 
-  it("should not allow overlapping dates for the selected property (disabled days visible)", () => {
+  it("should not allow overlapping dates for the selected property", () => {
     cy.get("[data-testid=\"create-booking-button\"]").click();
     cy.get("[data-testid=\"booking-modal\"]").should("exist");
     cy.get("[data-testid=\"booking-form\"]").should("exist");

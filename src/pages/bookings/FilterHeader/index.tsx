@@ -49,7 +49,6 @@ export function FilterHeader() {
           <DatePickerModal
             value={filterDates}
             onChange={setFilterDates}
-            disabledBefore
             modalTitle="Filter by dates"
             modalSubtitle="Pick a date range to narrow results."
             trigger={({ open, displayedValue }) => (

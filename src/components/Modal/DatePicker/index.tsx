@@ -13,12 +13,12 @@ type DatePickerProps = {
   label?: string;
   helperText?: string;
   required?: boolean;
-  disabledBefore?: boolean;
   error?: boolean;
   modalTitle?: string;
   modalSubtitle?: string;
   property?: string;
   enableCreateBooking?: boolean;
+  ignoreBookingId?: string;
   trigger?: (args: {
     open: () => void;
     displayedValue: string;
@@ -31,18 +31,20 @@ export function DatePickerModal({
   label,
   helperText,
   required,
-  disabledBefore,
   error,
   modalTitle = "Select booking dates",
   modalSubtitle = "Choose the check-in and check-out dates for the booking.",
   property = "",
   enableCreateBooking,
+  ignoreBookingId,
   trigger,
 }: DatePickerProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isBookingDatesConfirmed, setIsbookingDatesConfirmed] = useState(false);
   const [datePickerDates, setDatePickerDates] = useState<DateRange | undefined>();
-  const propertyBookedDates = usePropertyBookedDates(property);
+  const [startMonth, setStartMonth] = useState<Date | undefined>(isBookingDatesConfirmed && !enableCreateBooking ? datePickerDates?.from : undefined);
+
+  const { propertyBookedDates = [], maxSelectableEndDate } = usePropertyBookedDates(property, ignoreBookingId, datePickerDates?.from);
 
   useEffect(() => {
     if (value) {
@@ -108,17 +110,14 @@ export function DatePickerModal({
     }
   };
 
+  const disabledRangeMatchers = [
+    ...(datePickerDates?.from && !isBookingDatesConfirmed ? [{ before: datePickerDates?.from }] : []),
+    ...(maxSelectableEndDate && !isBookingDatesConfirmed ? [{ after: maxSelectableEndDate }] : []),
+  ];
+
   const displayedDate = datePickerDates?.from && datePickerDates?.to
     ? formatBookingRange(datePickerDates.from, datePickerDates.to)
     : "";
-
-  const disabledMatchers = disabledBefore && datePickerDates?.from && !isBookingDatesConfirmed
-    ? [{ before: datePickerDates.from }]
-    : [];
-
-  const startMonth = isBookingDatesConfirmed && !enableCreateBooking
-    ? datePickerDates?.from
-    : undefined;
 
   const bookingStartDateISO = datePickerDates?.from
     ? formatDateISO(datePickerDates.from)
@@ -150,6 +149,7 @@ export function DatePickerModal({
               slotProps={{ input: { readOnly: true } }}
               focused={false}
               onClick={handleOpenDatePicker}
+              onMouseDown={(e) => e.preventDefault()}
             />
           )}
 
@@ -196,14 +196,14 @@ export function DatePickerModal({
       >
         <DatePickerContainer>
           <StyledDatePicker
-            // animate
             data-testid="date-picker-calendar"
-            disabled={[...disabledMatchers, ...propertyBookedDates]}
+            disabled={[...disabledRangeMatchers, ...propertyBookedDates]}
             numberOfMonths={2}
             onDayMouseEnter={handleDatePickerPreview}
             selected={datePickerDates}
             onSelect={handleDatePickerSelect}
             month={startMonth}
+            onMonthChange={setStartMonth}
             mode="range"
             modifiers={{ booked: propertyBookedDates }}
             modifiersClassNames={{ booked: "my-booked-class" }}

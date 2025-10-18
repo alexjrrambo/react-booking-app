@@ -18,7 +18,7 @@ vi.mock("@hooks/useAppSelector", () => ({
   useAppSelector: (selector: (state: RootStateMock) => unknown) => selector(mockState),
 }));
 
-const d = (date: Date | undefined) => (date ? date.toISOString().slice(0, 10) : "");
+const iso = (date: Date | undefined) => (date ? date.toISOString().slice(0, 10) : "");
 
 describe("usePropertyBookedDates", () => {
   beforeEach(() => {
@@ -51,54 +51,80 @@ describe("usePropertyBookedDates", () => {
     };
   });
 
-  it("should return empty array when property is empty", () => {
+  it("should return empty result when property is empty", () => {
     const { result } = renderHook(({ property }) => usePropertyBookedDates(property), {
       initialProps: { property: "" },
     });
-    expect(result.current).toEqual([]);
+    expect(result.current.propertyBookedDates).toEqual([]);
+    expect(result.current.maxSelectableEndDate).toBeUndefined();
   });
 
-  it("should return empty array when no bookings match the property", () => {
+  it("should return no ranges when no bookings match the property", () => {
     const { result } = renderHook(({ property }) => usePropertyBookedDates(property), {
       initialProps: { property: "Unknown Place" },
     });
-    expect(result.current).toEqual([]);
+    expect(result.current.propertyBookedDates).toEqual([]);
+    expect(result.current.maxSelectableEndDate).toBeUndefined();
   });
 
-  it("should return ranges for a property with end date exclusive minus one day", () => {
+  it("should return ranges with end date exclusive (minus one day)", () => {
     const { result } = renderHook(({ property }) => usePropertyBookedDates(property), {
       initialProps: { property: "House Beach" },
     });
 
-    const ranges: DateRange[] = result.current;
+    const ranges: DateRange[] = result.current.propertyBookedDates;
     expect(ranges).toHaveLength(2);
 
-    expect(d(ranges[0].from)).toBe("2025-10-01");
-    expect(d(ranges[0].to)).toBe("2025-10-04");
+    expect(iso(ranges[0].from)).toBe("2025-10-01");
+    expect(iso(ranges[0].to)).toBe("2025-10-04");
 
-    expect(d(ranges[1].from)).toBe("2025-11-01");
-    expect(d(ranges[1].to)).toBe("2025-11-02");
+    expect(iso(ranges[1].from)).toBe("2025-11-01");
+    expect(iso(ranges[1].to)).toBe("2025-11-02");
+  });
+
+  it("should compute maxSelectableEndDate from the next booked start after selected from", () => {
+    const selectedFrom = new Date(2025, 9, 15);
+    const { result } = renderHook(
+      ({ property, from }) => usePropertyBookedDates(property, undefined, from),
+      { initialProps: { property: "House Beach", from: selectedFrom } },
+    );
+
+    expect(result.current.propertyBookedDates).toHaveLength(2);
+    expect(iso(result.current.maxSelectableEndDate)).toBe("2025-10-31");
+  });
+
+  it("should respect ignoreBookingId and drop that booking from disabled ranges", () => {
+    const { result } = renderHook(
+      ({ property, ignoreId }) => usePropertyBookedDates(property, ignoreId),
+      { initialProps: { property: "Mountain Cabin", ignoreId: "b2" } },
+    );
+
+    expect(result.current.propertyBookedDates).toHaveLength(0);
+    expect(result.current.maxSelectableEndDate).toBeUndefined();
   });
 
   it("should recompute when property changes", () => {
-    const { result, rerender } = renderHook(({ property }) => usePropertyBookedDates(property), {
-      initialProps: { property: "House Beach" },
-    });
-    expect(result.current).toHaveLength(2);
+    const { result, rerender } = renderHook(
+      ({ property }) => usePropertyBookedDates(property),
+      { initialProps: { property: "House Beach" } },
+    );
+
+    expect(result.current.propertyBookedDates).toHaveLength(2);
 
     rerender({ property: "Mountain Cabin" });
-    expect(result.current).toHaveLength(1);
+    expect(result.current.propertyBookedDates).toHaveLength(1);
 
-    const range = result.current[0];
-    expect(d(range.from)).toBe("2025-10-10");
-    expect(d(range.to)).toBe("2025-10-11");
+    const onlyRange = result.current.propertyBookedDates[0];
+    expect(iso(onlyRange.from)).toBe("2025-10-10");
+    expect(iso(onlyRange.to)).toBe("2025-10-11");
   });
 
-  it("should update when booking list changes", () => {
-    const { result, rerender } = renderHook(({ property }) => usePropertyBookedDates(property), {
-      initialProps: { property: "House Beach" },
-    });
-    expect(result.current).toHaveLength(2);
+  it("should update when the booking list changes", () => {
+    const { result, rerender } = renderHook(
+      ({ property }) => usePropertyBookedDates(property),
+      { initialProps: { property: "House Beach" } },
+    );
+    expect(result.current.propertyBookedDates).toHaveLength(2);
 
     act(() => {
       mockState.booking.bookings = [
@@ -114,10 +140,10 @@ describe("usePropertyBookedDates", () => {
     });
 
     rerender({ property: "House Beach" });
-    expect(result.current).toHaveLength(3);
+    expect(result.current.propertyBookedDates).toHaveLength(3);
 
-    const last = result.current[2];
-    expect(d(last.from)).toBe("2025-12-24");
-    expect(d(last.to)).toBe("2025-12-25");
+    const last = result.current.propertyBookedDates[2];
+    expect(iso(last.from)).toBe("2025-12-24");
+    expect(iso(last.to)).toBe("2025-12-25");
   });
 });

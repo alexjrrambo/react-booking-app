@@ -24,7 +24,6 @@ export function BookingsPage() {
 
           <RightActions>
             <DatePickerModal
-              disabledBefore
               modalTitle={`Check availability | ${filterProperty}`}
               modalSubtitle="Select check-in and check-out dates. Unavailable dates are disabled."
               property={filterProperty}

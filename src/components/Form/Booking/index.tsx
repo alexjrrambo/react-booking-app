@@ -135,8 +135,8 @@ export function BookingForm({ mode, defaultBookingValues, onSubmit = () => {}, o
             label="When?"
             helperText={fieldState.error?.message || "Select your check-in and check-out dates"}
             required
-            disabledBefore
             property={selectedProperty}
+            ignoreBookingId={mode === "edit" ? defaultBookingValues?.id : undefined}
           />
         )}
       />

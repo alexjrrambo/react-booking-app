@@ -22,14 +22,12 @@ export const selectFilteredBookings = createSelector(
     const filterStartDate = filterStart ? parseDateOnly(filterStart) : undefined;
     const filterEndDate = filterEnd ? parseDateOnly(filterEnd) : undefined;
 
-    return bookings.filter((booking) => {
+    const filtered = bookings.filter((booking) => {
       if (filterProperty && booking.property !== filterProperty) {
         return false;
       }
 
-      if (!filterStartDate && !filterEndDate) {
-        return true;
-      }
+      if (!filterStartDate && !filterEndDate) return true;
 
       const bookingStartDate = parseDateOnly(booking.startDate);
       const bookingEndDate = parseDateOnly(booking.endDate);
@@ -48,5 +46,9 @@ export const selectFilteredBookings = createSelector(
 
       return true;
     });
+
+    return [...filtered].sort((a, b) =>
+      parseDateOnly(a.startDate).getTime() - parseDateOnly(b.startDate).getTime(),
+    );
   },
 );

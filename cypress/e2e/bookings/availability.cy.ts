@@ -21,7 +21,7 @@ describe("Bookings – availability", () => {
     cy.contains("Check availability | Beach House").should("exist");
   });
 
-  it("should disable dates before the selected start date (disabledBefore)", () => {
+  it("should disable dates before the selected start date", () => {
     cy.get("[data-testid=\"filter-property-button\"]").click();
     cy.get("[data-testid=\"property-menu\"]").should("be.visible");
     cy.contains("li", "Mountain Cabin").click();
