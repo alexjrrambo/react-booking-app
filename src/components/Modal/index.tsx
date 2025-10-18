@@ -10,6 +10,7 @@ type ModalProps = {
   actions?: ReactNode;
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
   fullWidth?: boolean;
+  dataTestId?: string;
 };
 
 export function Modal({
@@ -21,6 +22,7 @@ export function Modal({
   actions,
   maxWidth = "md",
   fullWidth = true,
+  dataTestId,
 }: ModalProps) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
@@ -32,9 +34,10 @@ export function Modal({
       onClose={onClose}
       maxWidth={maxWidth}
       fullWidth={fullWidth}
+      data-testid={dataTestId}
     >
 
-      <DialogContent data-test-id="wowowow">
+      <DialogContent>
         {title && <Typography variant="h6">{title}</Typography>}
         {subtitle && (
           <Typography variant="body2" color="text.secondary">

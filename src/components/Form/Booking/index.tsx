@@ -57,7 +57,7 @@ export function BookingForm({ mode, defaultBookingValues, onSubmit = () => {}, o
       property: bookingProperty,
       existingBookings: bookings,
       ignoreBookingId: isEdit ? defaultBookingValues?.id : undefined,
-      ignorePastBookings: true,
+      allowStartInPast: isEdit,
     });
 
     if (bookingDatesValidationResult.error) {
@@ -80,13 +80,14 @@ export function BookingForm({ mode, defaultBookingValues, onSubmit = () => {}, o
   };
 
   return (
-    <BookingFormContainer>
+    <BookingFormContainer data-testid="booking-form">
       <Controller
         name="bookingGuestName"
         control={control}
         render={({ field, fieldState }) => (
           <TextField
             {...field}
+            data-testid="booking-guest-name"
             variant="standard"
             required
             label="Guest name"
@@ -110,6 +111,7 @@ export function BookingForm({ mode, defaultBookingValues, onSubmit = () => {}, o
             <InputLabel id="property-select-label">Property</InputLabel>
             <Select
               {...field}
+              data-testid="booking-property-select"
               labelId="property-select-label"
               size="small"
               fullWidth
@@ -140,8 +142,12 @@ export function BookingForm({ mode, defaultBookingValues, onSubmit = () => {}, o
         )}
       />
       <BookingFormActions>
-        <Button onClick={onCancel}>Cancel</Button>
-        <Button variant="contained" onClick={handleSubmit(handleBookingSubmit)}>
+        <Button data-testid="booking-cancel" onClick={onCancel}>Cancel</Button>
+        <Button
+          data-testid="booking-save"
+          variant="contained"
+          onClick={handleSubmit(handleBookingSubmit)}
+        >
           {mode === "edit" ? "Save" : "Create"}
         </Button>
       </BookingFormActions>

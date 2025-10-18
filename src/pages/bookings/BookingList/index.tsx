@@ -92,6 +92,7 @@ export function BookingList() {
               <BookingItemActions>
                 <BookingModal existingBooking={bookingItem} />
                 <Button
+                  data-testid="delete-booking"
                   variant="outlined"
                   size="small"
                   startIcon={<DeleteOutlineIcon />}

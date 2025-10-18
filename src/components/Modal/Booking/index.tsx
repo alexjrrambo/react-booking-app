@@ -36,6 +36,7 @@ export function BookingModal({
   return (
     <>
       <ButtonResponsiveWithIcon
+        data-testid={isEdit ? "edit-booking-button" : "create-booking-button"}
         variant="contained"
         startIcon={isEdit ? <EditIcon /> : <AddIcon />}
         size={isEdit ? "small" : "medium"}
@@ -46,6 +47,7 @@ export function BookingModal({
       </ButtonResponsiveWithIcon>
 
       <Modal
+        dataTestId="booking-modal"
         open={bookingModalOpen}
         onClose={handleBookingModalClose}
         title={isEdit ? "Update booking" : "Create booking"}

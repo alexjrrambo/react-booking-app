@@ -154,6 +154,7 @@ export function DatePickerModal({
           )}
 
       <Modal
+        dataTestId="date-picker-modal"
         open={isDatePickerOpen}
         onClose={handleCloseDatePicker}
         title={modalTitle}
@@ -193,7 +194,7 @@ export function DatePickerModal({
           </DatePickerModalActions>
         )}
       >
-        <DatePickerContainer data-testid="date-picker-modal">
+        <DatePickerContainer>
           <StyledDatePicker
             data-testid="date-picker-calendar"
             disabled={[...disabledMatchers, ...propertyBookedDates]}
