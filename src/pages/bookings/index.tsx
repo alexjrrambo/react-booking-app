@@ -33,6 +33,7 @@ export function BookingsPage() {
                 <Tooltip title={filterProperty ? "" : "Select a property first"}>
                   <span>
                     <ButtonResponsiveWithIcon
+                      data-testid="availability-button"
                       onClick={open}
                       variant="outlined"
                       size="small"

@@ -71,8 +71,8 @@ describe("Bookings – filters", () => {
 
   it("should not apply dates when closed without confirming", () => {
     cy.get("[data-testid=\"date-filter-button\"]").click();
-    cy.get("[data-day=\"2025-10-22\"]").find("button").click(); // só 'from'
-    cy.get("[data-testid=\"date-picker-close\"]").click(); // fecha sem 'to'
+    cy.get("[data-day=\"2025-10-22\"]").find("button").click();
+    cy.get("[data-testid=\"date-picker-close\"]").click();
     cy.get("[data-testid=\"apply-filters\"]").click();
 
     cy.get("[data-testid=\"booking-card\"]").should("have.length", 5);
