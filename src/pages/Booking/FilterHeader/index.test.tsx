@@ -3,7 +3,7 @@ import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import React from "react";
 import * as ReactRedux from "react-redux";
 import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
-import { FilterHeader } from "./index";
+import { BookingFilterHeader } from "./index";
 
 type DateRange = { from?: Date; to?: Date };
 
@@ -42,13 +42,13 @@ describe("Component: FilterHeader", () => {
   });
 
   it("should render default labels", () => {
-    renderWithTheme(<FilterHeader />);
+    renderWithTheme(<BookingFilterHeader />);
     expect(screen.getByText("All dates")).toBeInTheDocument();
     expect(screen.getByText("All properties")).toBeInTheDocument();
   });
 
   it("should select a property from the menu and update label", async () => {
-    renderWithTheme(<FilterHeader />);
+    renderWithTheme(<BookingFilterHeader />);
 
     const propertyButton = screen.getByRole("button", { name: "Filter by property" });
     fireEvent.click(propertyButton);
@@ -61,13 +61,13 @@ describe("Component: FilterHeader", () => {
   });
 
   it("should pick a date range and reflect it in the trigger", () => {
-    renderWithTheme(<FilterHeader />);
+    renderWithTheme(<BookingFilterHeader />);
     fireEvent.click(screen.getByRole("button", { name: "Filter by dates" }));
     expect(screen.getByText("Oct 10 – Oct 12, 2025")).toBeInTheDocument();
   });
 
   it("should dispatch filters with empty values when nothing is selected", () => {
-    renderWithTheme(<FilterHeader />);
+    renderWithTheme(<BookingFilterHeader />);
     fireEvent.click(screen.getByRole("button", { name: "Apply filters" }));
     expect(dispatchMock).toHaveBeenCalledWith({
       type: "booking/setBookingFilters",
@@ -76,7 +76,7 @@ describe("Component: FilterHeader", () => {
   });
 
   it("should dispatch filters with selected property and date range", async () => {
-    renderWithTheme(<FilterHeader />);
+    renderWithTheme(<BookingFilterHeader />);
 
     const propertyButton = screen.getByRole("button", { name: "Filter by property" });
     fireEvent.click(propertyButton);
