@@ -1,4 +1,4 @@
-import { Dialog, DialogActions, DialogContent, Typography } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, Typography, useMediaQuery, useTheme } from "@mui/material";
 import type { ReactNode } from "react";
 
 type ModalProps = {
@@ -22,15 +22,19 @@ export function Modal({
   maxWidth = "md",
   fullWidth = true,
 }: ModalProps) {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
   return (
     <Dialog
+      fullScreen={fullScreen}
       open={open}
       onClose={onClose}
       maxWidth={maxWidth}
       fullWidth={fullWidth}
     >
 
-      <DialogContent>
+      <DialogContent data-test-id="wowowow">
         {title && <Typography variant="h6">{title}</Typography>}
         {subtitle && (
           <Typography variant="body2" color="text.secondary">

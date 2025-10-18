@@ -1,7 +1,18 @@
 import { alpha } from "@mui/material";
 import ButtonBase from "@mui/material/ButtonBase";
 import Typography from "@mui/material/Typography";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+export const FilterHeaderContent = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.values.xs}px) {
+    flex-direction: column;
+  }
+`;
 
 export const FilterButton = styled(ButtonBase)`
     display: grid;
@@ -60,4 +71,14 @@ export const SearchButton = styled.div`
         display: flex;
         width: 100%;
     }
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to   { opacity: 1; }
+`;
+
+export const AnimatedWrapper = styled.div`
+  opacity: 0;
+  animation: ${fadeIn} 500ms ease-out forwards;
 `;

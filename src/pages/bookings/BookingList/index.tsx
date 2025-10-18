@@ -15,6 +15,7 @@ import { parseDateOnly } from "@utils/date";
 import { format } from "date-fns";
 import { useDispatch } from "react-redux";
 import {
+  AnimatedWrapper,
   BookingItemActions,
   BookingListContainer,
   BookingListEmpty,
@@ -39,7 +40,7 @@ export function BookingList() {
           <Typography variant="h6">
             No bookings found
           </Typography>
-          <Typography variant="body2">
+          <Typography variant="body2" align="center">
             Try adjusting the filters or create a new booking.
           </Typography>
           <BookingModal />
@@ -50,52 +51,54 @@ export function BookingList() {
 
   return (
     <BookingListContainer>
-      {bookings.map((bookingItem) => {
+      {bookings.map((bookingItem, index) => {
         return (
-          <Card key={bookingItem.id}>
-            <Grid
-              container
-              flexGrow={1}
-              spacing={{ sm: 2, xs: 1 }}
-              alignItems="center"
-            >
-              <Grid size={12}>
-                <DateBadge>
-                  <DateBadgeIcon>
-                    <CalendarMonthOutlinedIcon fontSize="small" />
-                  </DateBadgeIcon>
-                  <DateBadgeText>
-                    <label>Dates</label>
-                    <span>
-                      {format(parseDateOnly(bookingItem.startDate), "MMM d")}
-                      <ArrowForwardIosRoundedIcon />
-                      {format(parseDateOnly(bookingItem.endDate), "MMM d, yyyy")}
-                    </span>
-                  </DateBadgeText>
-                </DateBadge>
-              </Grid>
-
-              <Grid size={{ md: 6, xs: 12 }}>
-                <TextWithIcon icon={<PersonIcon />}>{bookingItem.guestName}</TextWithIcon>
-              </Grid>
-              <Grid size={{ md: 6, xs: 12 }}>
-                <TextWithIcon icon={<HomeOutlinedIcon />}>{bookingItem.property}</TextWithIcon>
-              </Grid>
-            </Grid>
-
-            <BookingItemActions>
-              <BookingModal existingBooking={bookingItem} />
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<DeleteOutlineIcon />}
-                color="error"
-                onClick={() => handleDeleteBooking(bookingItem.id)}
+          <AnimatedWrapper key={bookingItem.id} $delayMs={index * 50}>
+            <Card>
+              <Grid
+                container
+                flexGrow={1}
+                spacing={{ sm: 2, xs: 1 }}
+                alignItems="center"
               >
-                Delete
-              </Button>
-            </BookingItemActions>
-          </Card>
+                <Grid size={12}>
+                  <DateBadge>
+                    <DateBadgeIcon>
+                      <CalendarMonthOutlinedIcon fontSize="small" />
+                    </DateBadgeIcon>
+                    <DateBadgeText>
+                      <label>Dates</label>
+                      <span>
+                        {format(parseDateOnly(bookingItem.startDate), "MMM d")}
+                        <ArrowForwardIosRoundedIcon />
+                        {format(parseDateOnly(bookingItem.endDate), "MMM d, yyyy")}
+                      </span>
+                    </DateBadgeText>
+                  </DateBadge>
+                </Grid>
+
+                <Grid size={{ md: 6, xs: 12 }}>
+                  <TextWithIcon icon={<PersonIcon />}>{bookingItem.guestName}</TextWithIcon>
+                </Grid>
+                <Grid size={{ md: 6, xs: 12 }}>
+                  <TextWithIcon icon={<HomeOutlinedIcon />}>{bookingItem.property}</TextWithIcon>
+                </Grid>
+              </Grid>
+
+              <BookingItemActions>
+                <BookingModal existingBooking={bookingItem} />
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<DeleteOutlineIcon />}
+                  color="error"
+                  onClick={() => handleDeleteBooking(bookingItem.id)}
+                >
+                  Delete
+                </Button>
+              </BookingItemActions>
+            </Card>
+          </AnimatedWrapper>
         );
       })}
     </BookingListContainer>

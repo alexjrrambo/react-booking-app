@@ -23,7 +23,7 @@ const commonTypography = {
 function makeTheme(mode: "light" | "dark") {
   return createTheme({
     breakpoints: {
-      values: { xs: 448, sm: 600, md: 900, lg: 1200, xl: 1536 },
+      values: { xs: 420, sm: 600, md: 900, lg: 1200, xl: 1536 },
     },
     palette: {
       mode,

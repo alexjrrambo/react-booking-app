@@ -1,4 +1,4 @@
-import { DatePicker } from "@components/DatePicker";
+import { DatePicker } from "@components/Modal/DatePicker";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { useBookingForm } from "@hooks/useBookingForm";
 import {

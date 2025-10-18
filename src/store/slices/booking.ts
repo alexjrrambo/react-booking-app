@@ -6,7 +6,7 @@ const initialState: BookingState = {
     {
       id: "bkg_001",
       guestName: "Alex Junior Rambo",
-      property: "Mountain Cabin",
+      property: "Beach House",
       startDate: "2025-10-10",
       endDate: "2025-10-13",
     },
@@ -20,7 +20,7 @@ const initialState: BookingState = {
     {
       id: "bkg_003",
       guestName: "João Santos",
-      property: "Mountain Cabin",
+      property: "Beach House",
       startDate: "2025-10-22",
       endDate: "2025-10-26",
     },
@@ -34,7 +34,7 @@ const initialState: BookingState = {
     {
       id: "bkg_005",
       guestName: "Carlos Souza",
-      property: "Mountain Cabin",
+      property: "Beach House",
       startDate: "2025-11-20",
       endDate: "2025-11-25",
     },

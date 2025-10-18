@@ -1,9 +1,9 @@
-import { DatePicker } from "@components/DatePicker";
+import { ButtonResponsiveWithIcon } from "@components/Button";
 import { BookingModal } from "@components/Modal/Booking";
+import { DatePicker } from "@components/Modal/DatePicker";
 import { useAppSelector } from "@hooks/useAppSelector";
 import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
 import {
-  Button,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -32,15 +32,15 @@ export function BookingsPage() {
               trigger={({ open }) => (
                 <Tooltip title={filterProperty ? "" : "Select a property first"}>
                   <span>
-                    <Button
+                    <ButtonResponsiveWithIcon
                       onClick={open}
                       variant="outlined"
                       size="small"
                       startIcon={<EventAvailableOutlinedIcon />}
                       disabled={!filterProperty}
                     >
-                      Availability
-                    </Button>
+                      <label>Availability</label>
+                    </ButtonResponsiveWithIcon>
                   </span>
                 </Tooltip>
               )}

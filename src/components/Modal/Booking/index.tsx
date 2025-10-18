@@ -1,48 +1,49 @@
+import { ButtonResponsiveWithIcon } from "@components/Button";
 import { BookingForm } from "@components/Form/Booking";
 import { Modal } from "@components/Modal";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
-import { Button } from "@mui/material";
 import type { Booking } from "@store/slices/types";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 type BookingDialogButtonProps = {
   existingBooking?: Booking;
   defaultBookingValues?: Partial<Booking>;
-  enableCreateBooking?: boolean;
+  disableCreateBookingWithCalendar?: boolean;
+  onSave?: () => void;
 };
 
 export function BookingModal({
   existingBooking,
   defaultBookingValues,
-  enableCreateBooking,
+  disableCreateBookingWithCalendar,
+  onSave = () => {},
 }: BookingDialogButtonProps) {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const isEdit = Boolean(existingBooking);
 
-  const disableCreate = useMemo(() => {
-    return enableCreateBooking && (!defaultBookingValues?.startDate || !defaultBookingValues?.endDate);
-  }, [enableCreateBooking, defaultBookingValues]);
+  const disableTriggerModalButton = disableCreateBookingWithCalendar;
 
   const handleBookingModalOpen = () => {
     setBookingModalOpen(true);
   };
 
   const handleBookingModalClose = () => {
+    onSave();
     setBookingModalOpen(false);
   };
 
   return (
     <>
-      <Button
+      <ButtonResponsiveWithIcon
         variant="contained"
         startIcon={isEdit ? <EditIcon /> : <AddIcon />}
         size={isEdit ? "small" : "medium"}
         onClick={handleBookingModalOpen}
-        disabled={isEdit ? false : disableCreate}
+        disabled={disableTriggerModalButton}
       >
-        {isEdit ? "Edit" : "Create booking"}
-      </Button>
+        <label>{isEdit ? "Edit" : "Create booking"}</label>
+      </ButtonResponsiveWithIcon>
 
       <Modal
         open={bookingModalOpen}
@@ -58,7 +59,6 @@ export function BookingModal({
         <BookingForm
           mode={isEdit ? "edit" : "create"}
           defaultBookingValues={isEdit ? existingBooking : defaultBookingValues}
-          enableCreateBooking={enableCreateBooking}
           onSubmit={() => handleBookingModalClose()}
           onCancel={handleBookingModalClose}
         />

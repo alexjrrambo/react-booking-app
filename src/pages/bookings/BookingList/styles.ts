@@ -1,5 +1,5 @@
 import { alpha } from "@mui/material/styles";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const BookingListContainer = styled.div`
     display: flex;
@@ -12,10 +12,15 @@ export const BookingItemActions = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.values.sm}px) {        
+      justify-content: end;      
+    }
 `;
 
 export const DateBadge = styled.div`
-    display: inline-flex;
+    display: flex;
+    width: 260px;
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
@@ -69,4 +74,15 @@ export const BookingListEmpty = styled.div`
   padding: 32px 0;
   border-radius: 16px;
   background: ${({ theme }) => theme.palette.primary.contrastText};
+`;
+
+const fadeSlideUp = keyframes`
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+`;
+
+export const AnimatedWrapper = styled.div<{ $delayMs?: number }>`
+  opacity: 0;
+  animation: ${fadeSlideUp} 260ms ease-out forwards;
+  animation-delay: ${({ $delayMs = 0 }) => `${$delayMs}ms`};
 `;
