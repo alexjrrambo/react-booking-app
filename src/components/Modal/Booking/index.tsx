@@ -3,7 +3,7 @@ import { BookingForm } from "@components/Form/Booking";
 import { Modal } from "@components/Modal";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
-import type { Booking } from "@store/slices/types";
+import type { Booking } from "@store/booking/types";
 import { useState } from "react";
 
 type BookingDialogButtonProps = {

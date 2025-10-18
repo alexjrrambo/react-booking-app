@@ -1,10 +1,10 @@
 import { Card } from "@components/Card";
-import { DatePicker } from "@components/Modal/DatePicker";
+import { DatePickerModal } from "@components/Modal/DatePicker";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, Menu, MenuItem } from "@mui/material";
-import { setBookingFilters } from "@store/slices/booking";
+import { setBookingFilters } from "@store/booking/slice";
 import { formatDateISO } from "@utils/date";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
@@ -46,7 +46,7 @@ export function FilterHeader() {
     <AnimatedWrapper>
       <Card>
         <FilterHeaderContent>
-          <DatePicker
+          <DatePickerModal
             value={filterDates}
             onChange={setFilterDates}
             disabledBefore

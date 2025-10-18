@@ -1,4 +1,4 @@
-import type { Booking } from "@store/slices/types";
+import type { Booking } from "@store/booking/types";
 import { parseDateOnly, todayDateOnly } from "@utils/date";
 
 export type BookingValidationResult = {

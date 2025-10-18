@@ -1,6 +1,6 @@
 import { ButtonResponsiveWithIcon } from "@components/Button";
 import { BookingModal } from "@components/Modal/Booking";
-import { DatePicker } from "@components/Modal/DatePicker";
+import { DatePickerModal } from "@components/Modal/DatePicker";
 import { useAppSelector } from "@hooks/useAppSelector";
 import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
 import {
@@ -23,7 +23,7 @@ export function BookingsPage() {
           <Typography variant="h5">Bookings</Typography>
 
           <RightActions>
-            <DatePicker
+            <DatePickerModal
               disabledBefore
               modalTitle={`Check availability | ${filterProperty}`}
               modalSubtitle="Select check-in and check-out dates. Unavailable dates are disabled."

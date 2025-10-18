@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { bookingSchema, type BookingFormData } from "@utils/validation/bookingSchema";
+import { bookingSchema, type BookingFormData } from "@utils/validation/booking/schema";
 import { useForm } from "react-hook-form";
 
 export function useBookingForm() {

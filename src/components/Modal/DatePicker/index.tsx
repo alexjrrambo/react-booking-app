@@ -25,7 +25,7 @@ type DatePickerProps = {
   }) => ReactNode;
 };
 
-export function DatePicker({
+export function DatePickerModal({
   value,
   onChange = () => {},
   label,

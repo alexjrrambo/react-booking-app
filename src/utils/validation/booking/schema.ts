@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const bookingSchema = z.object({
-  bookingGuestName: z.string().min(3, "Guest name must have at least 3 characters."),
+  bookingGuestName: z.string().min(3, "Guest name must have at least 3 characters.").max(50, "Guest name must have at most 50 characters."),
   bookingProperty: z.string().nonempty("Property is required."),
   bookingDates: z.object({
     from: z.date(),

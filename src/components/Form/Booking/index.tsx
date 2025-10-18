@@ -1,14 +1,14 @@
-import { DatePicker } from "@components/Modal/DatePicker";
+import { DatePickerModal } from "@components/Modal/DatePicker";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { useBookingForm } from "@hooks/useBookingForm";
 import {
   Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField,
 } from "@mui/material";
-import { createBooking, updateBooking } from "@store/slices/booking";
-import type { Booking } from "@store/slices/types";
+import { createBooking, updateBooking } from "@store/booking/slice";
+import type { Booking } from "@store/booking/types";
 import { formatDateISO, parseDateOnly } from "@utils/date";
-import { executeBookingValidators } from "@utils/validation/booking";
-import type { BookingFormData } from "@utils/validation/bookingSchema";
+import type { BookingFormData } from "@utils/validation/booking/schema";
+import { executeBookingValidators } from "@utils/validation/booking/validators";
 import { useEffect } from "react";
 import { Controller, useWatch } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -127,7 +127,7 @@ export function BookingForm({ mode, defaultBookingValues, onSubmit = () => {}, o
         name="bookingDates"
         control={control}
         render={({ field, fieldState }) => (
-          <DatePicker
+          <DatePickerModal
             error={Boolean(fieldState.error)}
             value={field.value}
             onChange={field.onChange}
