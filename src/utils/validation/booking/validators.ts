@@ -44,6 +44,7 @@ export function ensureChronologicalOrder(
   return { error: false };
 }
 
+// Not being used in order to make edits simpler to review - keeping for potential future use
 export function ensureStartDateNotInPast(
   startDate: Date,
 ): BookingValidationResult {
@@ -112,7 +113,6 @@ type ExecuteBookingValidatorsParams = {
   existingBookings: Booking[];
   ignoreBookingId?: string;
   ignorePastBookings?: boolean;
-  allowStartInPast?: boolean;
 };
 
 export function executeBookingValidators({
@@ -122,12 +122,10 @@ export function executeBookingValidators({
   existingBookings,
   ignoreBookingId,
   ignorePastBookings,
-  allowStartInPast = false,
 }: ExecuteBookingValidatorsParams): BookingValidationResult {
   return runValidatorsInOrder(
     () => ensureDateRangePresent(startDate, endDate),
     () => ensureChronologicalOrder(startDate, endDate),
-    ...(allowStartInPast ? [] : [() => ensureStartDateNotInPast(startDate)]),
     () => ensureNoOverlapForProperty({
       startDate,
       endDate,

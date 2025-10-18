@@ -196,13 +196,14 @@ export function DatePickerModal({
       >
         <DatePickerContainer>
           <StyledDatePicker
+            // animate
             data-testid="date-picker-calendar"
             disabled={[...disabledMatchers, ...propertyBookedDates]}
             numberOfMonths={2}
             onDayMouseEnter={handleDatePickerPreview}
             selected={datePickerDates}
             onSelect={handleDatePickerSelect}
-            startMonth={startMonth}
+            month={startMonth}
             mode="range"
             modifiers={{ booked: propertyBookedDates }}
             modifiersClassNames={{ booked: "my-booked-class" }}

@@ -57,7 +57,6 @@ export function BookingForm({ mode, defaultBookingValues, onSubmit = () => {}, o
       property: bookingProperty,
       existingBookings: bookings,
       ignoreBookingId: isEdit ? defaultBookingValues?.id : undefined,
-      allowStartInPast: isEdit,
     });
 
     if (bookingDatesValidationResult.error) {
