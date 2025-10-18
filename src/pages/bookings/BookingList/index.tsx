@@ -53,7 +53,11 @@ export function BookingList() {
     <BookingListContainer>
       {bookings.map((bookingItem, index) => {
         return (
-          <AnimatedWrapper key={bookingItem.id} $delayMs={index * 50}>
+          <AnimatedWrapper
+            key={bookingItem.id}
+            $delayMs={index * 50}
+            data-testid="booking-card"
+          >
             <Card>
               <Grid
                 container

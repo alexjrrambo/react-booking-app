@@ -138,6 +138,7 @@ export function DatePickerModal({
           )
         : (
             <TextField
+              data-testid="date-trigger-input"
               value={displayedDate || ""}
               variant="standard"
               required={required}
@@ -164,12 +165,19 @@ export function DatePickerModal({
             <Button
               variant="text"
               id="date-picker-clear-dates-button"
+              data-testid="date-picker-clear"
               onClick={handleClearDatePicker}
             >
               Clear dates
             </Button>
             <div>
-              <Button variant="text" onClick={handleCloseDatePicker}>Close</Button>
+              <Button
+                variant="text"
+                data-testid="date-picker-close"
+                onClick={handleCloseDatePicker}
+              >
+                Close
+              </Button>
               {enableCreateBooking && (
                 <BookingModal
                   defaultBookingValues={{
@@ -185,8 +193,9 @@ export function DatePickerModal({
           </DatePickerModalActions>
         )}
       >
-        <DatePickerContainer>
+        <DatePickerContainer data-testid="date-picker-modal">
           <StyledDatePicker
+            data-testid="date-picker-calendar"
             disabled={[...disabledMatchers, ...propertyBookedDates]}
             numberOfMonths={2}
             onDayMouseEnter={handleDatePickerPreview}

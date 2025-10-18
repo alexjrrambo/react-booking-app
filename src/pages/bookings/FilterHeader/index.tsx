@@ -53,7 +53,11 @@ export function FilterHeader() {
             modalTitle="Filter by dates"
             modalSubtitle="Pick a date range to narrow results."
             trigger={({ open, displayedValue }) => (
-              <FilterButton onClick={open} aria-label="Filter by dates">
+              <FilterButton
+                data-testid="date-filter-button"
+                onClick={open}
+                aria-label="Filter by dates"
+              >
                 <CalendarMonthOutlinedIcon fontSize="small" />
                 <div>
                   <FilterLabel>Dates</FilterLabel>
@@ -66,6 +70,7 @@ export function FilterHeader() {
           <VerticalDivider />
 
           <FilterButton
+            data-testid="filter-property-button"
             onClick={openPropertyMenu}
             aria-haspopup="menu"
             aria-controls="property-menu"
@@ -81,6 +86,7 @@ export function FilterHeader() {
 
           <Menu
             id="property-menu"
+            data-testid="property-menu"
             anchorEl={propertyAnchor}
             open={isPropertyMenuOpen}
             onClose={closePropertyMenu}
@@ -97,6 +103,7 @@ export function FilterHeader() {
 
           <SearchButton>
             <IconButton
+              data-testid="apply-filters"
               onClick={handleApplyFilters}
               size="medium"
               aria-label="Apply filters"
